@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 520" font-family="-apple-system, Segoe UI, Helvetica, Arial, sans-serif">
+  <rect width="880" height="520" rx="16" fill="#0f172a"/>
+  <text x="40" y="48" fill="#f8fafc" font-size="22" font-weight="700">Ask the same question twice</text>
+  <text x="40" y="74" fill="#94a3b8" font-size="14">"Who owns my data directory?" — once through libc, once straight to the kernel.</text>
+
+  <rect x="330" y="100" width="220" height="50" rx="10" fill="#1e293b" stroke="#475569"/>
+  <text x="440" y="131" fill="#f8fafc" font-size="15" text-anchor="middle" font-weight="600">Your app</text>
+
+  <!-- path A -->
+  <path d="M380 150 L220 196" stroke="#64748b" stroke-width="2" marker-end="url(#a)"/>
+  <rect x="90" y="200" width="260" height="50" rx="10" fill="#1e293b" stroke="#334155"/>
+  <text x="220" y="231" fill="#e2e8f0" font-size="14" text-anchor="middle" font-family="ui-monospace, Menlo, monospace">stat(path)  — libc</text>
+  <path d="M220 250 V272" stroke="#64748b" stroke-width="2"/>
+  <rect x="90" y="272" width="260" height="40" rx="10" fill="#7f1d1d" stroke="#ef4444" stroke-dasharray="5 4"/>
+  <text x="220" y="297" fill="#fee2e2" font-size="13" text-anchor="middle">cloner hook can redirect here</text>
+  <path d="M220 312 V340" stroke="#64748b" stroke-width="2" marker-end="url(#a)"/>
+
+  <!-- path B -->
+  <path d="M500 150 L660 196" stroke="#64748b" stroke-width="2" marker-end="url(#a)"/>
+  <rect x="530" y="200" width="260" height="50" rx="10" fill="#1e293b" stroke="#334155"/>
+  <text x="660" y="231" fill="#e2e8f0" font-size="14" text-anchor="middle" font-family="ui-monospace, Menlo, monospace">syscall(__NR_newfstatat)</text>
+  <path d="M660 250 V340" stroke="#22c55e" stroke-width="2" marker-end="url(#g)"/>
+  <text x="672" y="300" fill="#86efac" font-size="13">no libc, no hook</text>
+
+  <rect x="90" y="344" width="700" height="46" rx="10" fill="#14532d" stroke="#22c55e"/>
+  <text x="440" y="373" fill="#dcfce7" font-size="15" text-anchor="middle">Kernel + SELinux  —  the real directory, the real owner</text>
+
+  <!-- results -->
+  <g font-size="14" font-family="ui-monospace, Menlo, monospace">
+    <text x="90" y="428" fill="#94a3b8">environment   uid     libc     syscall</text>
+    <text x="90" y="454" fill="#4ade80">genuine       10763   10763    10763    ✓ agree</text>
+    <text x="90" y="478" fill="#f87171">MultiBox      10764   -1       -1       ✗ can't read own dir</text>
+    <text x="90" y="502" fill="#f87171">Clone App     10765   10765    -1       ✗ libc lies</text>
+  </g>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10z" fill="#64748b"/></marker>
+    <marker id="g" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10z" fill="#22c55e"/></marker>
+  </defs>
+</svg>

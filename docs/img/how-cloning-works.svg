@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 420" font-family="-apple-system, Segoe UI, Helvetica, Arial, sans-serif">
+  <rect width="880" height="420" rx="16" fill="#0f172a"/>
+  <text x="40" y="48" fill="#f8fafc" font-size="22" font-weight="700">How an app cloner runs your APK</text>
+  <text x="40" y="74" fill="#94a3b8" font-size="14">The container sits between your code and the OS and answers questions on its behalf.</text>
+
+  <!-- Genuine -->
+  <text x="220" y="118" fill="#4ade80" font-size="15" font-weight="700" text-anchor="middle">GENUINE INSTALL</text>
+  <rect x="80" y="134" width="280" height="54" rx="10" fill="#1e293b" stroke="#334155"/>
+  <text x="220" y="167" fill="#e2e8f0" font-size="15" text-anchor="middle">Your app  ·  uid 10763</text>
+  <path d="M220 188 V214" stroke="#64748b" stroke-width="2" marker-end="url(#a)"/>
+  <rect x="80" y="220" width="280" height="54" rx="10" fill="#1e293b" stroke="#334155"/>
+  <text x="220" y="253" fill="#e2e8f0" font-size="15" text-anchor="middle">Android framework + libc</text>
+  <path d="M220 274 V300" stroke="#64748b" stroke-width="2" marker-end="url(#a)"/>
+  <rect x="80" y="306" width="280" height="54" rx="10" fill="#14532d" stroke="#22c55e"/>
+  <text x="220" y="339" fill="#dcfce7" font-size="15" text-anchor="middle">Kernel  ·  /data/user/0/your.pkg</text>
+
+  <!-- Cloned -->
+  <text x="640" y="118" fill="#f87171" font-size="15" font-weight="700" text-anchor="middle">INSIDE A CLONER</text>
+  <rect x="500" y="134" width="280" height="54" rx="10" fill="#1e293b" stroke="#334155"/>
+  <text x="640" y="167" fill="#e2e8f0" font-size="15" text-anchor="middle">Your app (thinks all is normal)</text>
+  <path d="M640 188 V200" stroke="#64748b" stroke-width="2"/>
+  <rect x="500" y="200" width="280" height="44" rx="10" fill="#7f1d1d" stroke="#ef4444"/>
+  <text x="640" y="228" fill="#fee2e2" font-size="14" text-anchor="middle">Hook layer: fake uid, path, package</text>
+  <path d="M640 244 V256" stroke="#64748b" stroke-width="2"/>
+  <rect x="500" y="256" width="280" height="44" rx="10" fill="#1e293b" stroke="#334155"/>
+  <text x="640" y="284" fill="#e2e8f0" font-size="14" text-anchor="middle">Host process  ·  uid 10764</text>
+  <path d="M640 300 V312" stroke="#64748b" stroke-width="2" marker-end="url(#a)"/>
+  <rect x="500" y="316" width="280" height="44" rx="10" fill="#1e293b" stroke="#334155"/>
+  <text x="640" y="344" fill="#e2e8f0" font-size="14" text-anchor="middle">Kernel  ·  /data/data/host/virtual/…</text>
+
+  <text x="440" y="395" fill="#94a3b8" font-size="13" text-anchor="middle">Everything your app asks through Java, and even libc, can be answered by the hook layer.</text>
+  <defs><marker id="a" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10z" fill="#64748b"/></marker></defs>
+</svg>
