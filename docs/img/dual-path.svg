@@ -26,7 +26,7 @@
   <text x="440" y="373" fill="#dcfce7" font-size="15" text-anchor="middle">Kernel + SELinux  —  the real directory, the real owner</text>
 
   <!-- results -->
-  <g font-size="14" font-family="ui-monospace, Menlo, monospace">
+  <g font-size="14" font-family="ui-monospace, Menlo, monospace" xml:space="preserve">
     <text x="90" y="428" fill="#94a3b8">environment   uid     libc     syscall</text>
     <text x="90" y="454" fill="#4ade80">genuine       10763   10763    10763    ✓ agree</text>
     <text x="90" y="478" fill="#f87171">MultiBox      10764   -1       -1       ✗ can't read own dir</text>
