@@ -1,0 +1,43 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Poster</title>
+<style>
+  *{margin:0;box-sizing:border-box}
+  body{width:1200px;height:1500px;background:#0b1120;color:#f8fafc;font-family:-apple-system,"Segoe UI",Helvetica,Arial,sans-serif;padding:90px 90px 70px;position:relative;overflow:hidden}
+  body:before{content:"";position:absolute;right:-220px;top:-220px;width:700px;height:700px;border-radius:50%;background:radial-gradient(circle,#1d4ed855,transparent 70%)}
+  .tag{display:inline-block;font:600 22px ui-monospace,Menlo,monospace;color:#86efac;border:2px solid #22c55e66;padding:10px 18px;border-radius:999px;letter-spacing:.5px}
+  h1{font-size:92px;line-height:1.02;font-weight:800;letter-spacing:-2px;margin:40px 0 28px}
+  h1 em{font-style:normal;color:#4ade80}
+  .sub{font-size:32px;line-height:1.4;color:#94a3b8;max-width:960px}
+  .paths{margin-top:70px;display:grid;grid-template-columns:1fr 1fr;gap:34px}
+  .card{border-radius:22px;padding:34px;background:#111a2e;border:2px solid #1e293b}
+  .card.bad{border-color:#ef444466}.card.good{border-color:#22c55e88}
+  .card h3{font-size:24px;letter-spacing:1px;text-transform:uppercase;margin-bottom:18px}
+  .bad h3{color:#f87171}.good h3{color:#4ade80}
+  code{font:600 30px ui-monospace,Menlo,monospace;color:#e2e8f0}
+  .card p{margin-top:16px;font-size:24px;color:#94a3b8;line-height:1.4}
+  table{margin-top:56px;width:100%;border-collapse:collapse;font:500 28px ui-monospace,Menlo,monospace}
+  th{color:#64748b;text-align:left;font-weight:600;padding:0 0 14px;font-size:22px;letter-spacing:1px;text-transform:uppercase}
+  td{padding:16px 0;border-top:2px solid #1e293b}
+  .ok{color:#4ade80}.no{color:#f87171}
+  .foot{position:absolute;left:90px;right:90px;bottom:70px;display:flex;justify-content:space-between;align-items:flex-end;font-size:26px;color:#94a3b8}
+  .foot b{color:#f8fafc;font-size:30px}
+</style></head>
+<body>
+  <span class="tag">ANDROID · SECURITY · NDK</span>
+  <h1>Your app is lying<br>to you. <em>The kernel<br>isn't.</em></h1>
+  <p class="sub">App cloners fake everything Java and libc can see. Here's how we caught them by asking the same question twice.</p>
+
+  <div class="paths">
+    <div class="card bad"><h3>Hookable</h3><code>stat(path)</code><p>Goes through libc. The cloner redirects it to its container.</p></div>
+    <div class="card good"><h3>Not hookable</h3><code>syscall(stat…)</code><p>Straight to the kernel. SELinux answers with the real owner.</p></div>
+  </div>
+
+  <table>
+    <tr><th>environment</th><th>libc</th><th>kernel</th><th></th></tr>
+    <tr><td>genuine</td><td>10763</td><td>10763</td><td class="ok">✓ agree</td></tr>
+    <tr><td>MultiBox</td><td>-1</td><td>-1</td><td class="no">✗ caught</td></tr>
+    <tr><td>Clone App</td><td>10765</td><td>-1</td><td class="no">✗ caught</td></tr>
+  </table>
+
+  <div class="foot"><div><b>Full write-up + open-source code</b><br>link in the post · MIT</div><div>measured on a real device</div></div>
+</body></html>
