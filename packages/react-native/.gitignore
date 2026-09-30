@@ -6,3 +6,5 @@ android/.cxx/
 android/src/main/cpp/
 android/src/main/java/dev/clonedetection/guard/CloneDetector.kt
 android/src/main/java/dev/clonedetection/guard/NativeProbe.kt
+android/src/main/java/dev/clonedetection/guard/CloneRules.kt
+android/src/test/
