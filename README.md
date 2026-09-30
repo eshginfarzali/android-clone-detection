@@ -1,6 +1,6 @@
 # Catching Android App Cloners by Asking the Kernel
 
-[![npm](https://img.shields.io/npm/v/react-native-clone-guard.svg)](https://www.npmjs.com/package/react-native-clone-guard) [![CI](https://github.com/eshginfarzali/android-clone-detection/actions/workflows/ci.yml/badge.svg)](https://github.com/eshginfarzali/android-clone-detection/actions/workflows/ci.yml) [![license](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![npm](https://img.shields.io/npm/v/react-native-clone-guard.svg)](https://www.npmjs.com/package/react-native-clone-guard) [![license](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
 *How we stopped "one phone, two identities" in a workforce attendance app, and why the usual checks weren't enough.*
 

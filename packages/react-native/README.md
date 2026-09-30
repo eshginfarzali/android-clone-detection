@@ -1,6 +1,6 @@
 # react-native-clone-guard
 
-[![npm](https://img.shields.io/npm/v/react-native-clone-guard.svg)](https://www.npmjs.com/package/react-native-clone-guard) [![CI](https://github.com/eshginfarzali/android-clone-detection/actions/workflows/ci.yml/badge.svg)](https://github.com/eshginfarzali/android-clone-detection/actions/workflows/ci.yml) [![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/eshginfarzali/android-clone-detection/blob/main/LICENSE)
+[![npm](https://img.shields.io/npm/v/react-native-clone-guard.svg)](https://www.npmjs.com/package/react-native-clone-guard) [![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/eshginfarzali/android-clone-detection/blob/main/LICENSE)
 
 Detect Android app cloners (MultiBox, Parallel Space, Clone App, Dual App, Second Space, …) in **Expo** and **bare React Native** apps.
 
@@ -115,7 +115,7 @@ The detection rules live in a pure Kotlin object (`CloneRules`) with no Android 
 
 - **17 Kotlin tests:** K1 launch paths (including the Expo listener path), K2, K5, K6, K8 and the three measured K9 environments
 - **10 JS tests:** config plugin output and removal, idempotency, and `getCloneStatus()` on missing or failing native modules
-- **CI** builds the module inside a fresh Expo app, the way users consume it
+- A CI workflow builds the module inside a fresh Expo app, the way users consume it
 
 ```sh
 npm test                                                          # JS
