@@ -1,0 +1,8 @@
+node_modules/
+build/
+android/build/
+android/.cxx/
+# Copied from ../../clone-guard by scripts/sync-core.js
+android/src/main/cpp/
+android/src/main/java/dev/clonedetection/guard/CloneDetector.kt
+android/src/main/java/dev/clonedetection/guard/NativeProbe.kt
