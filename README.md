@@ -121,6 +121,22 @@ No client-side check is absolute. With root, a hooking framework and enough time
 
 The same reasoning led to a second fix. The device identifier used to be a random UUID in app storage, so clearing app data or reinstalling produced a "new" device. It now comes from `ANDROID_ID` on Android and from a Keychain-cached `identifierForVendor` on iOS, with backups disabled so the identity doesn't follow a restore onto another phone.
 
+## Install
+
+**React Native / Expo:** [`react-native-clone-guard`](packages/react-native) on npm
+
+```sh
+npx expo install react-native-clone-guard
+```
+
+```json
+{ "expo": { "plugins": [["react-native-clone-guard", { "block": true }]] } }
+```
+
+It hooks into the main activity through Expo's lifecycle listeners, so detection runs before any JavaScript loads. Works in bare React Native after `npx install-expo-modules`.
+
+**Native Android:** copy the `clone-guard/` module (details below).
+
 ## Using this code
 
 The `clone-guard/` directory is a small Android library module: one C file, two Kotlin files and no dependencies.
