@@ -78,35 +78,23 @@ object CloneDetector {
 
         // K1: Virtual engines launch the activity through their own Instrumentation,
         // so a foreign class sits between Activity.performCreate and ActivityThread.
-        val activityFrame = frames.indexOfLast { it == "android.app.Activity" }
-        val launcher = frames.drop(activityFrame + 1).firstOrNull { it != "android.app.Instrumentation" }
-        if (activityFrame < 0 || launcher?.startsWith("android.app.ActivityThread") != true) return "K1"
+        if (CloneRules.foreignLauncher(frames)) return "K1"
 
         // K9: Owner of our data directory, read through libc and through a raw syscall.
-        //
-        //   genuine    → uid=10763  libc=10763  raw=10763
-        //   MultiBox   → uid=10764  libc=-1     raw=-1
-        //   Clone App  → uid=10765  libc=10765  raw=-1
-        //
         // In a clone, libc either points at the container's directory or stays silent,
         // while the syscall reaches the REAL directory and SELinux denies it because
-        // the cloned process does not own it. A genuine install reads it both ways.
+        // the cloned process does not own it. See CloneRules for the measured table.
         //
         // The `/system` probe is an ABI guard: if raw syscalls do not work on this
         // platform at all, K9 is skipped rather than blocking everyone.
         if (NativeProbe.isAvailable && NativeProbe.getPathOwnerUidRaw("/system") >= 0) {
             val dataDir = dataDirPath(context, uid)
-            val rawOwner = NativeProbe.getPathOwnerUidRaw(dataDir)
-            val libcOwner = NativeProbe.getPathOwnerUid(dataDir)
-
-            // Someone else owns it → we are not the process we claim to be.
-            if (rawOwner >= 0 && rawOwner != uid) return "K9"
-            // libc answers, the kernel refuses → libc is being redirected.
-            if (rawOwner < 0 && libcOwner >= 0) return "K9"
-            // Neither can read it. A genuine app always owns its directory; the one
-            // exception is an app moved to adoptable storage, told apart by sourceDir.
-            if (rawOwner < 0 && libcOwner < 0 &&
-                !applicationInfo.sourceDir.startsWith("/mnt/expand")
+            if (CloneRules.dataDirOwnerMismatch(
+                    uid = uid,
+                    rawOwner = NativeProbe.getPathOwnerUidRaw(dataDir),
+                    libcOwner = NativeProbe.getPathOwnerUid(dataDir),
+                    sourceDir = applicationInfo.sourceDir
+                )
             ) {
                 return "K9"
             }
@@ -116,30 +104,23 @@ object CloneDetector {
         if (NativeProbe.isAvailable && uid != Process.myUid()) return "K7"
 
         // K2: Not the primary user (Dual App, Second Space, work profile).
-        if (uid / 100000 != 0) return "K2"
+        if (CloneRules.secondaryUser(uid)) return "K2"
         // K3/K4: Inside a container the process runs under the host app's UID.
         if (applicationInfo.uid != uid) return "K3"
         if (context.packageManager.getPackagesForUid(uid)?.singleOrNull() != packageName) return "K4"
         // K5: Data directory lives inside the host app (e.g. /data/data/<host>/virtual/...).
-        val dataDirPattern = Regex("^/(data/data|data/user/0|mnt/expand/[^/]+/user/0)/${Regex.escape(packageName)}/?$")
-        if (!dataDirPattern.matches(applicationInfo.dataDir)) return "K5"
+        if (CloneRules.foreignDataDir(applicationInfo.dataDir, packageName)) return "K5"
         // K6: A genuine install maps our own base.apk from /data/app; a clone maps it
         // from the host's data directory.
         val ownApkMapped = try {
-            File("/proc/self/maps").useLines { lines ->
-                lines.any { it.endsWith("/base.apk") && it.contains("/data/app/") && it.contains("/$packageName-") }
-            }
+            File("/proc/self/maps").useLines { CloneRules.ownApkMapped(it, packageName) }
         } catch (error: Exception) {
             true
         }
         if (!ownApkMapped) return "K6"
 
         // K8: Repackaged — re-signed with the cloner's key.
-        if (acceptedSignatures.isNotEmpty() && signature != null &&
-            signature.lowercase() !in acceptedSignatures
-        ) {
-            return "K8"
-        }
+        if (CloneRules.unexpectedSignature(signature, acceptedSignatures)) return "K8"
 
         return null
     }
