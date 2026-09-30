@@ -1,20 +1,21 @@
 {
   "name": "react-native-clone-guard",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Detect Android app cloners (MultiBox, Parallel Space, Dual App…) by comparing libc and raw syscalls. Expo and bare React Native.",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "files": [
     "build",
     "android/build.gradle",
-    "android/src",
+    "android/src/main",
     "app.plugin.js",
     "expo-module.config.json"
   ],
   "scripts": {
     "sync-core": "node scripts/sync-core.js",
     "build": "npm run sync-core && tsc",
-    "prepack": "npm run build"
+    "prepack": "npm run build",
+    "test": "npm run build && node --test test/*.test.js"
   },
   "keywords": [
     "react-native",
@@ -40,6 +41,7 @@
     "expo": "*"
   },
   "devDependencies": {
+    "@expo/config-plugins": "^55.0.0",
     "expo-modules-core": "^3.0.0",
     "typescript": "^5.6.0"
   }
