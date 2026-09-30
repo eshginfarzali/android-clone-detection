@@ -1,0 +1,59 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  js:
+    name: JS tests (plugin + API)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: packages/react-native
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm install
+      - run: npm test
+
+  kotlin:
+    name: Kotlin tests (detection rules)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - name: Build package (syncs detector core and tests)
+        working-directory: packages/react-native
+        run: npm install && npm run build
+
+      # The module is built by a host app, exactly as users consume it.
+      - name: Create host Expo app
+        run: |
+          npx --yes create-expo-app@latest host --template blank-typescript --no-install
+          cd host
+          npm install
+          npm install ../packages/react-native --install-links=false
+          npx expo prebuild -p android --no-install
+        env:
+          CI: 1
+
+      - name: Run unit tests
+        working-directory: host/android
+        run: ./gradlew :react-native-clone-guard:testReleaseUnitTest --console=plain
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: kotlin-test-results
+          path: packages/react-native/android/build/test-results/
