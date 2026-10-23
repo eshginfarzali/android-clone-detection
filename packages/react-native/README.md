@@ -1,6 +1,6 @@
 # react-native-clone-guard
 
-[![npm](https://img.shields.io/npm/v/react-native-clone-guard.svg)](https://www.npmjs.com/package/react-native-clone-guard) [![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/eshginfarzali/android-clone-detection/blob/main/LICENSE)
+[![npm](https://img.shields.io/npm/v/react-native-clone-guard.svg)](https://www.npmjs.com/package/react-native-clone-guard) [![CI](https://github.com/eshginfarzali/android-clone-detection/actions/workflows/ci.yml/badge.svg)](https://github.com/eshginfarzali/android-clone-detection/actions/workflows/ci.yml) [![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/eshginfarzali/android-clone-detection/blob/main/LICENSE)
 
 Detect Android app cloners (MultiBox, Parallel Space, Clone App, Dual App, Second Space, …) in **Expo** and **bare React Native** apps.
 
