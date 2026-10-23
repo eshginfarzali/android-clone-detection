@@ -4,6 +4,11 @@ on:
   push:
     branches: [main]
   pull_request:
+  workflow_dispatch:
+  # The Kotlin job builds against the latest Expo template, so run weekly
+  # to catch breakage from new Expo / React Native releases early.
+  schedule:
+    - cron: '0 6 * * 1'
 
 jobs:
   js:
@@ -17,7 +22,9 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-      - run: npm install
+          cache: npm
+          cache-dependency-path: packages/react-native/package-lock.json
+      - run: npm ci
       - run: npm test
 
   kotlin:
@@ -35,7 +42,7 @@ jobs:
 
       - name: Build package (syncs detector core and tests)
         working-directory: packages/react-native
-        run: npm install && npm run build
+        run: npm ci && npm run build
 
       # The module is built by a host app, exactly as users consume it.
       - name: Create host Expo app
