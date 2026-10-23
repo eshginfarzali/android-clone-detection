@@ -57,7 +57,7 @@ jobs:
 
       - name: Run unit tests
         working-directory: host/android
-        run: ./gradlew :react-native-clone-guard:testReleaseUnitTest --console=plain
+        run: ./gradlew :react-native-clone-guard:testDebugUnitTest --console=plain
 
       - uses: actions/upload-artifact@v4
         if: always()

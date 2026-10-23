@@ -119,7 +119,7 @@ The detection rules live in a pure Kotlin object (`CloneRules`) with no Android 
 
 ```sh
 npm test                                                          # JS
-./gradlew :react-native-clone-guard:testReleaseUnitTest           # Kotlin, from a host app
+./gradlew :react-native-clone-guard:testDebugUnitTest             # Kotlin, from a host app
 ```
 
 ## Limits
