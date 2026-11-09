@@ -1,6 +1,6 @@
 # Catching Android App Cloners by Asking the Kernel
 
-[![npm](https://img.shields.io/npm/v/react-native-clone-guard.svg)](https://www.npmjs.com/package/react-native-clone-guard) [![license](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![CI](https://github.com/eshginfarzali/android-clone-detection/actions/workflows/ci.yml/badge.svg)](https://github.com/eshginfarzali/android-clone-detection/actions/workflows/ci.yml) [![npm](https://img.shields.io/npm/v/react-native-clone-guard.svg)](https://www.npmjs.com/package/react-native-clone-guard) [![npm downloads](https://img.shields.io/npm/dm/react-native-clone-guard.svg)](https://www.npmjs.com/package/react-native-clone-guard) [![license](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
 *How we stopped "one phone, two identities" in a workforce attendance app, and why the usual checks weren't enough.*
 
@@ -135,7 +135,21 @@ npx expo install react-native-clone-guard
 { "expo": { "plugins": [["react-native-clone-guard", { "block": true }]] } }
 ```
 
-It hooks into the main activity through Expo's lifecycle listeners, so detection runs before any JavaScript loads. Works in bare React Native after `npx install-expo-modules`.
+It hooks into the main activity through Expo's lifecycle listeners, so detection runs before any JavaScript loads. Works in bare React Native after `npx install-expo-modules`. It needs a development build (`expo prebuild`, EAS Build or bare RN), because Expo Go cannot load custom native code.
+
+Read the result from JavaScript, for example to attach it to sensitive requests:
+
+```ts
+import { getCloneStatus } from "react-native-clone-guard";
+
+const status = getCloneStatus(); // synchronous, computed at launch; null on iOS / web / Expo Go
+
+if (status?.isCloned) {
+  console.warn(`Clone detected (${status.cloneReason})`);
+}
+```
+
+All options and the full `CloneStatus` type are in the [package README](packages/react-native#readme).
 
 **Native Android:** copy the `clone-guard/` module (details below).
 
